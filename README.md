@@ -6,30 +6,33 @@
 
 Inspired by the painting and the iterm2 theme.
 
-
 ## Installation
 
 `lazy.nvim`:
+
 ```lua
 {
-    "ptdewey/monalisa-nvim",
+    "mCassy/monalisa-nvim",
     priority = 1000,
 }
 ```
 
 `vim.pack`:
+
 ```lua
-vim.pack.add({ "https://github.com/ptdewey/monalisa-nvim" })
+vim.pack.add({ "https://github.com/mCassy/monalisa-nvim" })
 ```
 
 ## Usage
 
 Basic usage:
+
 ```lua
 vim.cmd.colorscheme("monalisa")
 ```
 
 With configuration:
+
 ```lua
 require("monalisa").setup({
     transparent = false,    -- Enable transparent backgrounds
@@ -43,6 +46,7 @@ vim.cmd.colorscheme("monalisa")
 ### Disabling Italics
 
 To disable all italic styling:
+
 ```lua
 require("monalisa").setup({
     italics = false,
@@ -53,6 +57,7 @@ vim.cmd.colorscheme("monalisa")
 ### Transparent Background
 
 To enable transparent background (useful for terminal transparency):
+
 ```lua
 require("monalisa").setup({
     transparent = true,
@@ -63,6 +68,7 @@ vim.cmd.colorscheme("monalisa")
 ### Custom Overrides
 
 You can override specific highlight groups:
+
 ```lua
 require("monalisa").setup({
     overrides = {
@@ -116,6 +122,7 @@ This colorscheme is written in pure Lua. To modify colors, edit the files in `lu
 - `groups/*.lua` - Highlight group definitions
 
 Format with [StyLua](https://github.com/JohnnyMorganz/StyLua):
+
 ```bash
 stylua lua/
 ```
