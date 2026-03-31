@@ -9,7 +9,7 @@ local function get()
 
   return {
     -- Standard syntax groups
-    Comment = { fg = p.cmt },
+    Comment = { fg = p.cmt, italic = italic },
     Constant = { fg = p.crimson },
     String = { fg = p.darkYellow },
     Character = { fg = p.darkYellow },
