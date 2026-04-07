@@ -37,21 +37,45 @@ With configuration:
 require("monalisa").setup({
     transparent = false,    -- Enable transparent backgrounds
     terminal_colors = true, -- Set terminal colors (0-15)
-    italics = true,         -- Enable italic styling
+    italics = {
+        comments = true,    -- Italic comments
+        keywords = false,   -- Italic keywords
+        functions = false,  -- Italic function names
+        strings = false,    -- Italic strings
+        variables = false,  -- Italic variables
+        parameters = true,  -- Italic parameters
+    },
     overrides = {},         -- Highlight group overrides
 })
 vim.cmd.colorscheme("monalisa")
 ```
 
-### Disabling Italics
+### Italics
 
-To disable all italic styling:
+You can control italics globally or for specific syntax categories:
 
 ```lua
+-- Disable all italics
 require("monalisa").setup({
     italics = false,
 })
-vim.cmd.colorscheme("monalisa")
+
+-- Enable all italics
+require("monalisa").setup({
+    italics = true,
+})
+
+-- Fine-tune specific categories (default)
+require("monalisa").setup({
+    italics = {
+        comments = true,
+        keywords = false,
+        functions = false,
+        strings = false,
+        variables = false,
+        parameters = true,
+    },
+})
 ```
 
 ### Transparent Background

@@ -6,9 +6,12 @@ local config = require("monalisa.config")
 local function get()
   local p = palette
   local transparent = config.transparent
-  local italic = config.italics
 
-  local bg = transparent and p.none or p.bg
+  local italic_comments = config.is_italic("comments")
+  local italic_keywords = config.is_italic("keywords")
+  local italic_functions = config.is_italic("functions")
+  local italic_variables = config.is_italic("variables")
+  local italic_parameters = config.is_italic("parameters")
 
   return {
     -- LSP references
@@ -17,7 +20,7 @@ local function get()
     LspReferenceWrite = { link = "Normal" },
     LspInlayHint = { link = "Comment" },
     LspCodeLens = { link = "Comment" },
-    LspSignatureActiveParameter = { bold = true, italic = italic, underline = true },
+    LspSignatureActiveParameter = { fg = p.crimson, bold = true, underline = true },
 
     -- Diagnostics
     DiagnosticError = { fg = p.crimson },
@@ -48,58 +51,62 @@ local function get()
     DiagnosticFloatingOk = { link = "DiagnosticOk" },
 
     -- Underline diagnostics
-    DiagnosticUnderlineError = { underline = true },
-    DiagnosticUnderlineWarn = { underline = true },
-    DiagnosticUnderlineInfo = { underline = true },
-    DiagnosticUnderlineHint = { underline = true },
-    DiagnosticUnderlineOk = { underline = true },
+    DiagnosticUnderlineError = { sp = p.crimson, undercurl = true },
+    DiagnosticUnderlineWarn = { sp = p.darkOrange, undercurl = true },
+    DiagnosticUnderlineInfo = { sp = p.blueGreen, undercurl = true },
+    DiagnosticUnderlineHint = { sp = p.cmt, undercurl = true },
+    DiagnosticUnderlineOk = { sp = p.brightGreen, undercurl = true },
 
     -- Special diagnostics
-    DiagnosticUnnecessary = { fg = p.cmt, underline = true },
-    DiagnosticDeprecated = { sp = p.crimson, strikethrough = true },
+    DiagnosticUnnecessary = { fg = p.cmt },
+    DiagnosticDeprecated = { fg = p.cmt, strikethrough = true },
 
     -- LSP semantic tokens (types)
-    ["@lsp.type.class"] = { link = "Type" },
-    ["@lsp.type.comment"] = { link = "Comment" },
-    ["@lsp.type.decorator"] = { link = "Function" },
-    ["@lsp.type.enum"] = { link = "Type" },
-    ["@lsp.type.enumMember"] = { link = "Constant" },
-    ["@lsp.type.function"] = { link = "Function" },
-    ["@lsp.type.interface"] = { link = "Type" },
-    ["@lsp.type.keyword"] = { link = "Keyword" },
-    ["@lsp.type.macro"] = { link = "Macro" },
-    ["@lsp.type.method"] = { link = "Function" },
-    ["@lsp.type.namespace"] = { link = "Identifier" },
-    ["@lsp.type.number"] = { link = "Number" },
-    ["@lsp.type.operator"] = { link = "Operator" },
-    ["@lsp.type.parameter"] = { link = "Identifier" },
-    ["@lsp.type.property"] = { link = "Identifier" },
-    ["@lsp.type.string"] = { link = "String" },
-    ["@lsp.type.struct"] = { link = "Type" },
-    ["@lsp.type.type"] = { link = "Type" },
-    ["@lsp.type.typeParameter"] = { link = "Type" },
-    ["@lsp.type.variable"] = { link = "Identifier" },
+    ["@lsp.type.class"] = { fg = p.darkOrange },
+    ["@lsp.type.comment"] = { link = "@comment" },
+    ["@lsp.type.decorator"] = { fg = p.blueGreen },
+    ["@lsp.type.enum"] = { fg = p.darkOrange },
+    ["@lsp.type.enumMember"] = { fg = p.crimson },
+    ["@lsp.type.function"] = { link = "@function" },
+    ["@lsp.type.interface"] = { fg = p.darkOrange },
+    ["@lsp.type.keyword"] = { link = "@keyword" },
+    ["@lsp.type.macro"] = { fg = p.blueGreen },
+    ["@lsp.type.method"] = { link = "@function.method" },
+    ["@lsp.type.namespace"] = { link = "@module" },
+    ["@lsp.type.number"] = { link = "@number" },
+    ["@lsp.type.operator"] = { link = "@operator" },
+    ["@lsp.type.parameter"] = { link = "@variable.parameter" },
+    ["@lsp.type.property"] = { link = "@property" },
+    ["@lsp.type.regexp"] = { link = "@string.regexp" },
+    ["@lsp.type.string"] = { link = "@string" },
+    ["@lsp.type.struct"] = { fg = p.darkOrange },
+    ["@lsp.type.type"] = { link = "@type" },
+    ["@lsp.type.typeParameter"] = { fg = p.darkOrange },
+    ["@lsp.type.variable"] = { link = "@variable" },
 
     -- LSP semantic token modifiers
+    ["@lsp.mod.declaration"] = {},
+    ["@lsp.mod.definition"] = {},
+    ["@lsp.mod.readonly"] = { fg = p.crimson },
+    ["@lsp.mod.static"] = {},
     ["@lsp.mod.deprecated"] = { strikethrough = true },
-    ["@lsp.mod.readonly"] = { italic = italic },
-    ["@lsp.mod.constant"] = { link = "Constant" },
-    ["@lsp.mod.static"] = { italic = italic },
-    ["@lsp.mod.async"] = { italic = italic },
-    ["@lsp.mod.defaultLibrary"] = { link = "Special" },
-    ["@lsp.mod.abstract"] = { italic = italic },
-    ["@lsp.mod.virtual"] = { italic = italic },
+    ["@lsp.mod.abstract"] = { italic = true },
+    ["@lsp.mod.async"] = {},
+    ["@lsp.mod.modification"] = {},
+    ["@lsp.mod.documentation"] = { italic = italic_comments },
+    ["@lsp.mod.defaultLibrary"] = {},
 
     -- LSP semantic token type + modifier combinations
-    ["@lsp.typemod.function.defaultLibrary"] = { link = "Special" },
-    ["@lsp.typemod.method.defaultLibrary"] = { link = "Special" },
-    ["@lsp.typemod.variable.defaultLibrary"] = { link = "Special" },
-    ["@lsp.typemod.variable.readonly"] = { fg = p.crimson, italic = italic },
-    ["@lsp.typemod.variable.constant"] = { link = "Constant" },
-    ["@lsp.typemod.property.readonly"] = { fg = p.crimson, italic = italic },
-    ["@lsp.typemod.parameter.readonly"] = { italic = italic },
-    ["@lsp.typemod.function.async"] = { fg = p.darkOrange, italic = italic },
-    ["@lsp.typemod.method.async"] = { fg = p.darkOrange, italic = italic },
+    ["@lsp.typemod.function.declaration"] = { fg = p.green, bold = true },
+    ["@lsp.typemod.function.defaultLibrary"] = { fg = p.green },
+    ["@lsp.typemod.method.declaration"] = { fg = p.green, bold = true },
+    ["@lsp.typemod.variable.readonly"] = { fg = p.crimson },
+    ["@lsp.typemod.variable.globalScope"] = { fg = p.fg, bold = true },
+    ["@lsp.typemod.variable.constant"] = { fg = p.crimson },
+    ["@lsp.typemod.parameter.declaration"] = { link = "@variable.parameter" },
+    ["@lsp.typemod.property.readonly"] = { fg = p.teal },
+    ["@lsp.typemod.class.declaration"] = { fg = p.darkOrange, bold = true },
+    ["@lsp.typemod.interface.declaration"] = { fg = p.darkOrange, bold = true },
   }
 end
 
