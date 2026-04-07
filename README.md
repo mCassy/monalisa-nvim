@@ -103,14 +103,43 @@ require("monalisa").setup({
 vim.cmd.colorscheme("monalisa")
 ```
 
+### Lualine
+
+MonaLisa includes a dedicated lualine theme:
+
+```lua
+require("lualine").setup({
+    options = {
+        theme = "monalisa",
+    },
+})
+```
+
+### Bufferline
+
+For bufferline.nvim, the theme provides comprehensive highlight groups. Example setup:
+
+```lua
+require("bufferline").setup({
+    highlights = require("bufferline").setup({
+        options = {
+            -- your options
+        },
+    }),
+})
+```
+
 ## Project Structure
 
 ```
 lua/
+├── lualine/
+│   └── themes/
+│       └── monalisa.lua    # Lualine theme
 ├── monalisa/
-│   ├── init.lua        # Main entry point with setup() and load()
-│   ├── config.lua      # Configuration options
-│   ├── palette.lua     # Color definitions
+│   ├── init.lua            # Main entry point with setup() and load()
+│   ├── config.lua          # Configuration options
+│   ├── palette.lua         # Color definitions
 │   └── groups/
 │       ├── editor.lua      # Core editor highlights
 │       ├── syntax.lua      # Syntax highlighting
@@ -118,25 +147,34 @@ lua/
 │       ├── lsp.lua         # LSP & diagnostics
 │       └── plugins.lua     # Plugin integrations
 colors/
-└── monalisa.lua        # Simple loader
+└── monalisa.lua            # Simple loader
 ```
 
 ## Supported Plugins
 
-- Telescope
-- FzfLua
-- GitSigns
-- Indent Blankline
-- Mini.nvim
-- Neo-tree
-- Lazy.nvim
-- Mason
-- Which-key
-- Trouble.nvim
-- flash.nvim
-- Blink.cmp
-- Noice
-- snacks.nvim
+- [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
+- [fzf-lua](https://github.com/ibhagwan/fzf-lua)
+- [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
+- [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
+- [mini.nvim](https://github.com/echasnovski/mini.nvim)
+- [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim)
+- [nvim-tree.lua](https://github.com/nvim-tree/nvim-tree.lua)
+- [lazy.nvim](https://github.com/folke/lazy.nvim)
+- [mason.nvim](https://github.com/williamboman/mason.nvim)
+- [which-key.nvim](https://github.com/folke/which-key.nvim)
+- [trouble.nvim](https://github.com/folke/trouble.nvim)
+- [flash.nvim](https://github.com/folke/flash.nvim)
+- [leap.nvim](https://github.com/ggandor/leap.nvim)
+- [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
+- [blink.cmp](https://github.com/Saghen/blink.cmp)
+- [nvim-notify](https://github.com/rcarriga/nvim-notify)
+- [noice.nvim](https://github.com/folke/noice.nvim)
+- [snacks.nvim](https://github.com/folke/snacks.nvim)
+- [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
+- [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
+- [nvim-navic](https://github.com/SmiteshP/nvim-navic)
+- [dashboard-nvim](https://github.com/nvimdev/dashboard-nvim)
+- [alpha-nvim](https://github.com/goolord/alpha-nvim)
 
 ## Contributing
 
