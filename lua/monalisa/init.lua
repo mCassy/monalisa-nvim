@@ -64,11 +64,22 @@ function M.load()
 
   -- Apply all highlight groups
   for name, hl in pairs(groups) do
-    -- Filter out nil values (nvim_set_hl doesn't accept them)
+    -- Filter out nil/invalid values (nvim_set_hl is strict about types)
     local clean_hl = {}
     for k, v in pairs(hl) do
       if v ~= nil then
-        clean_hl[k] = v
+        -- Ensure boolean fields are actually booleans
+        if k == "italic" or k == "bold" or k == "underline" or k == "undercurl" 
+           or k == "strikethrough" or k == "reverse" or k == "standout" 
+           or k == "nocombine" or k == "underdouble" or k == "underdotted" 
+           or k == "underdashed" then
+          if v == true then
+            clean_hl[k] = true
+          end
+          -- Skip if not true (don't include false or other values)
+        else
+          clean_hl[k] = v
+        end
       end
     end
     vim.api.nvim_set_hl(0, name, clean_hl)
