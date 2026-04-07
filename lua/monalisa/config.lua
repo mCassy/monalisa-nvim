@@ -69,12 +69,12 @@ end
 
 ---Helper to check if italic is enabled for a category
 ---@param category string
----@return boolean
+---@return boolean|nil Returns true if enabled, nil if disabled (for nvim_set_hl compatibility)
 function M.is_italic(category)
-  if type(M.italics) == "table" then
-    return M.italics[category] == true
+  if type(M.italics) == "table" and M.italics[category] == true then
+    return true
   end
-  return false
+  return nil
 end
 
 return M
