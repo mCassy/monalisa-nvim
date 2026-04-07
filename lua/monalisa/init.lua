@@ -64,7 +64,14 @@ function M.load()
 
   -- Apply all highlight groups
   for name, hl in pairs(groups) do
-    vim.api.nvim_set_hl(0, name, hl)
+    -- Filter out nil values (nvim_set_hl doesn't accept them)
+    local clean_hl = {}
+    for k, v in pairs(hl) do
+      if v ~= nil then
+        clean_hl[k] = v
+      end
+    end
+    vim.api.nvim_set_hl(0, name, clean_hl)
   end
 end
 
